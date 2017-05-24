@@ -8,15 +8,9 @@ defmodule JetpackPhoenix.PageController do
   def oauth_callback(conn, %{ "code" => code}) do
     IO.inspect code
     HTTPoison.start
-    params = %{
-      "grant_type": "authorization_code",
-      "code": code,
-      "client_id": "GET_FROM_ENV",
-      "client_secret": "GET_FROM_ENV",
-      "redirect_uri": "http://localhost:4000/oauth_callback",
-    }
 
-    encoded_params = Poison.encode!(params)
+
+    encoded_params = Poison.encode!(build_params(code))
     IO.inspect(encoded_params)
     response = HTTPoison.post! "https://app.procore.com/oauth/", encoded_params, [{"Content-Type", "application/json"}]
     case response do
@@ -24,5 +18,18 @@ defmodule JetpackPhoenix.PageController do
         IO.inspect body
     end
     render conn, "index.html"
+  end
+
+  defp build_params(code) do
+    client_id = System.get_env("PROCORE_CLIENT_ID")
+    client_secret = System.get_env("PROCORE_CLIENT_SECRET")
+    params = %{
+      "grant_type": "authorization_code",
+      "code": code,
+      "client_id": client_id,
+      "client_secret": client_secret,
+      "redirect_uri": "http://localhost:4000/oauth_callback",
+    }
+    params
   end
 end
