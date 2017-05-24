@@ -1,5 +1,9 @@
-# JetpackPhoenix
+# jetpack
+> Strap in, we're launching some product.
 
+A boilerplate Procore OS application.
+
+## Getting Started 
 To start your Phoenix app:
 
   * Install dependencies with `mix deps.get`
