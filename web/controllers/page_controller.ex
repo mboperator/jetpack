@@ -6,29 +6,35 @@ defmodule JetpackPhoenix.PageController do
   end
 
   def oauth_callback(conn, %{ "code" => code}) do
-    oauth_response =
+    oauth_result =
       code
       |> build_params
       |> Poison.encode!
-      |> request_token
+      |> get_access_token
+      |> store_access_token(conn)
 
-    case oauth_response do
-      {:ok, body} ->
-        IO.inspect body
+    case oauth_result do
+      {:ok, token_properties} ->
+        IO.inspect token_properties
+        IO.inspect get_session(conn, :token_properties)
         render conn, "index.html"
-      {:error, body} ->
-        IO.inspect body
+      {:error, error} ->
+        IO.inspect error
         render conn, "index.html"
     end
   end
 
-  defp decodeJSON(body_string) do
-     decoded_body = Poison.decode!(body_string)
-     IO.inspect decoded_body
-     decoded_body
+  defp store_access_token(access_token_response, conn) do
+    case access_token_response do
+      {:ok, token_properties} ->
+        put_session(conn, :token_properties, token_properties)
+        {:ok, token_properties}
+      {:error, error} ->
+        {:error, error}
+    end
   end
 
-  defp request_token(encoded_params) do
+  defp get_access_token(encoded_params) do
     HTTPoison.start
     response = HTTPoison.post! "https://app.procore.com/oauth/token",
                                 encoded_params,
@@ -40,6 +46,12 @@ defmodule JetpackPhoenix.PageController do
       %HTTPoison.Response{ status_code: 401, body: body } ->
         {:error, decodeJSON(body)}
     end
+  end
+
+  defp decodeJSON(body_string) do
+    decoded_body = Poison.decode!(body_string)
+    IO.inspect decoded_body
+    decoded_body
   end
 
   defp build_params(code) do
