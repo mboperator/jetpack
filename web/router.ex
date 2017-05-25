@@ -18,6 +18,7 @@ defmodule JetpackPhoenix.Router do
 
     get "/", PageController, :index
     get "/oauth_callback", PageController, :oauth_callback
+    get "/oauth_complete", PageController, :oauth_complete
   end
 
   # Other scopes may use custom stacks.
