@@ -5,6 +5,10 @@ defmodule JetpackPhoenix.PageController do
     render conn, "index.html"
   end
 
+  def redirect_to_auth(conn, _params) do
+    redirect conn, external: "https://app.procore.com/oauth/authorize?response_type=code&client_id=9f2991210a431c6dbf24c016fbb16ed29909c1a944b4b8133923a37b8ce3e791&redirect_uri=http://localhost:4000/oauth/procore/callback"
+  end
+
   def oauth_callback(conn, %{ "code" => code }) do
     oauth_result =
       code
@@ -15,11 +19,8 @@ defmodule JetpackPhoenix.PageController do
 
     case oauth_result do
       {:ok, token_properties} ->
-        IO.inspect token_properties
-        IO.inspect get_session(conn, :token_properties)
         render conn, "index.html"
       {:error, error} ->
-        IO.inspect error
         render conn, "index.html"
     end
   end
@@ -49,9 +50,7 @@ defmodule JetpackPhoenix.PageController do
   end
 
   defp decodeJSON(body_string) do
-    decoded_body = Poison.decode!(body_string)
-    IO.inspect decoded_body
-    decoded_body
+    Poison.decode!(body_string)
   end
 
   defp build_params(code) do
