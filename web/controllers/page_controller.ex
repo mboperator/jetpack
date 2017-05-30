@@ -5,7 +5,7 @@ defmodule JetpackPhoenix.PageController do
     render conn, "index.html"
   end
 
-  def oauth_callback(conn, %{ "code" => code}) do
+  def oauth_callback(conn, %{ "code" => code }) do
     oauth_result =
       code
       |> build_params
