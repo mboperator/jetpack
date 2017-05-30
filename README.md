@@ -1,9 +1,24 @@
 # jetpack
 > Strap in, we're launching some product.
 
-A boilerplate Procore OS application.
+Jetpack is a Procore OS boilerplate that:
+  - Handles OAuth flow
+  - Manages Access Tokens and Refresh Tokens
+  - Proxies API requests and attaches access tokens
+  - Sets up Webpack builds for client applications
 
-## Getting Started 
+## Endpoints
+### /sessions/create
+Redirects client to start Procore OAuth flow
+
+### /oauth/procore/callback
+Takes OAuth code, retrieves an access_token, and stores that access_token in the session.
+
+### /api/v2/:path
+Paths preceeded by `/api/v2` will be routed to `https://app.procore.com/vapid/:path`.
+This controller adds the `access_token` to all requests that it routes.
+
+## Getting Started
 To start your Phoenix app:
 
   * Install dependencies with `mix deps.get`
