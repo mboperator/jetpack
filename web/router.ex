@@ -19,6 +19,14 @@ defmodule JetpackPhoenix.Router do
     get "/", PageController, :index
     get "/sessions/create", PageController, :redirect_to_auth
     get "/oauth/procore/callback", PageController, :oauth_callback
+
+    get "/v2/:path", ApiController, :v2_proxy
+  end
+
+  scope "/api", JetpackPhoenix do
+    pipe_through :api
+
+    # get "/v2/:path", ApiController, :v2_proxy
   end
 
   # Other scopes may use custom stacks.

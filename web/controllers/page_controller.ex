@@ -2,6 +2,7 @@ defmodule JetpackPhoenix.PageController do
   use JetpackPhoenix.Web, :controller
 
   def index(conn, _params) do
+    IO.inspect get_session(conn, :token_properties)
     render conn, "index.html"
   end
 
@@ -10,28 +11,21 @@ defmodule JetpackPhoenix.PageController do
   end
 
   def oauth_callback(conn, %{ "code" => code }) do
-    oauth_result =
-      code
-      |> build_params
-      |> Poison.encode!
-      |> get_access_token
-      |> store_access_token(conn)
-
-    case oauth_result do
-      {:ok, token_properties} ->
-        render conn, "index.html"
-      {:error, error} ->
-        render conn, "index.html"
-    end
+    code
+    |> build_params
+    |> Poison.encode!
+    |> get_access_token
+    |> store_access_token(conn)
+    |> render("index.html")
   end
 
   defp store_access_token(access_token_response, conn) do
     case access_token_response do
       {:ok, token_properties} ->
         put_session(conn, :token_properties, token_properties)
-        {:ok, token_properties}
       {:error, error} ->
-        {:error, error}
+        IO.inspect error
+        conn
     end
   end
 
@@ -62,7 +56,7 @@ defmodule JetpackPhoenix.PageController do
       "code": code,
       "client_id": client_id,
       "client_secret": client_secret,
-      "redirect_uri": "http://localhost:4000/oauth_callback",
+      "redirect_uri": "http://localhost:4000/oauth/procore/callback",
     }
   end
 end
