@@ -17,6 +17,8 @@ defmodule JetpackPhoenix.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/sessions/create", PageController, :redirect_to_auth
+    get "/oauth/procore/callback", PageController, :oauth_callback
   end
 
   # Other scopes may use custom stacks.
