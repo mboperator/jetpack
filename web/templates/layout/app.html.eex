@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
-  <body>
+  <body id="root">
     <div class="container">
       <header class="header">
         <nav role="navigation">
@@ -31,5 +31,6 @@
 
     </div> <!-- /container -->
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script src="http://localhost:8080/build/app.js"></script>
   </body>
 </html>
