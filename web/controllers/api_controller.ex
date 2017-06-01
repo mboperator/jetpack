@@ -1,7 +1,7 @@
 defmodule JetpackPhoenix.ApiController do
   use JetpackPhoenix.Web, :controller
 
-  def v2_proxy(conn, %{"path" => path}) do
+  def proxy_request(conn, %{"path" => path}) do
     response = contact_procore(conn, "https://app.procore.com/vapid/#{path}")
     render conn, "response.json", response: response
   end

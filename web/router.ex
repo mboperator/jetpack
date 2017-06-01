@@ -24,7 +24,7 @@ defmodule JetpackPhoenix.Router do
   scope "/api", JetpackPhoenix do
     pipe_through :api
 
-    get "/v2/:path", ApiController, :v2_proxy
+    get "/:path", ApiController, :proxy_request
   end
 
   # Other scopes may use custom stacks.

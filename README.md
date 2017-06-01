@@ -14,8 +14,8 @@ Redirects client to start Procore OAuth flow
 ### /oauth/procore/callback
 Takes OAuth code, retrieves an access_token, and stores that access_token in the session.
 
-### /api/v2/:path
-Paths preceeded by `/api/v2` will be routed to `https://app.procore.com/vapid/:path`.
+### /api/:path
+Paths preceeded by `/api/` will be routed to `https://app.procore.com/vapid/:path`.
 This controller adds the `access_token` to all requests that it routes.
 
 ## Getting Started
