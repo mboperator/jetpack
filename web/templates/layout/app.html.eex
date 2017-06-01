@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
-  <body id="root">
-    <div class="container">
+  <body>
+    <div class="container" id="root">
       <header class="header">
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
