@@ -4,7 +4,7 @@
   "description": "Procore OS App client",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV='development' webpack-dev-server --progress --colors --inline --config webpack.dev.config.js",
+    "dev": "NODE_ENV='development' yarn && webpack-dev-server --progress --colors --inline --config webpack.dev.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
