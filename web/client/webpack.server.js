@@ -20,6 +20,7 @@ const server = new WebpackDevServer(compiler, {
   lazy: false,
   publicPath: `${contentBase}/build`,
   stats: { colors: true },
+  headers: { 'Access-Control-Allow-Origin': '*' },
 });
 
 server.listen(PORT, HOST);
